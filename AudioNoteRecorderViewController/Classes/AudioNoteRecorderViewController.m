@@ -185,14 +185,22 @@
         _play.enabled = NO;
 //        NSURL *tmp = [NS]
         
-        NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
-                                          [NSNumber numberWithInt:44100],AVSampleRateKey,
-                                          [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
-                                          [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
-                                          [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
-                                          [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
-                                          nil];
+        if (self.recorderSettings == nil) {
+            self.recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
+                                     [NSNumber numberWithInt:44100],AVSampleRateKey,
+                                     [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
+                                     [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
+                                     [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
+                                     [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
+                                     nil];
+        }
+        if (self.fileExtension == nil) {
+            self.fileExtension = @"caf";
+        }
+        
+        NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString] ;
+        NSString *uniqueFileName = [NSString stringWithFormat:@"%@.%@", guid, self.fileExtension];
         NSError* error = nil;
         self.recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp.caf"]]  settings:recorderSettings error:&error];
         
