@@ -26,20 +26,34 @@
 #pragma mark - public methods
 + (id) showRecorderMasterViewController:(UIViewController *)masterViewController withFinishedBlock:(AudioNoteRecorderFinishBlock)finishedBlock
 {
-    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController];
+    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController recorderSettings:nil fileExtension:nil];
     avc.finishedBlock = finishedBlock;
     [masterViewController presentViewController:avc animated:YES completion:nil];
     return avc;
 }
 + (id) showRecorderWithMasterViewController:(UIViewController *)masterViewController withDelegate:(id<AudioNoteRecorderDelegate>)delegate
 {
-    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController];
+    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController recorderSettings:nil fileExtension:nil];
     avc.delegate = delegate;
     [masterViewController presentViewController:avc animated:YES completion:nil];
     return avc;
 }
++ (id) showRecorderWithMasterViewController:(UIViewController *) masterViewController withRecorderSettings:(NSDictionary *) recorderSettings withFileExtension:(NSString *) fileExtension withDelegate:(id<AudioNoteRecorderDelegate>) delegate
+{
+    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController recorderSettings:recorderSettings fileExtension:fileExtension];
+    avc.delegate = delegate;
+    [masterViewController presentViewController:avc animated:YES completion:nil];
+    return avc;
+}
++ (id) showRecorderMasterViewController:(UIViewController *) masterViewController withRecorderSettings:(NSDictionary *) recorderSettings withFileExtension:(NSString *) fileExtension withFinishedBlock:(AudioNoteRecorderFinishBlock) finishedBlock
+{
+    AudioNoteRecorderViewController *avc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:masterViewController recorderSettings:recorderSettings fileExtension:fileExtension];
+    avc.finishedBlock = finishedBlock;
+    [masterViewController presentViewController:avc animated:YES completion:nil];
+    return avc;
+}
 
-- (id) initWithMasterViewController:(UIViewController *) masterViewController
+- (id) initWithMasterViewController:(UIViewController *) masterViewController recorderSettings:(NSDictionary *) recorderSettings fileExtension:(NSString *) fileExtension
 {
     self = [super init];
     if (self) {
@@ -53,6 +67,8 @@
         self.background = [[UIImageView alloc] initWithImage:[viewImage applyDarkEffectAtFrame:masterViewController.view.window.frame]];
         [self.view addSubview:_background];
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        self.fileExtension = fileExtension;
+        self.recorderSettings = recorderSettings;
 
     }
     return self;

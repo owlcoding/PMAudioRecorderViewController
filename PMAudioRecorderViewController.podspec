@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "PMAudioRecorderViewController"
-  s.version      = "0.5"
+  s.version      = "0.6"
   s.summary      = "Drop-in class to record audio note in iOS application and get it back in the app"
   s.description  = <<-DESC
 PMAudioRecorderViewController

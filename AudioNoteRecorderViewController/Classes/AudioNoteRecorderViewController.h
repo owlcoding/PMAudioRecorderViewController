@@ -28,9 +28,8 @@ typedef void (^AudioNoteRecorderFinishBlock) (BOOL wasRecordingTaken, NSURL *rec
 
 @property (nonatomic, copy) AudioNoteRecorderFinishBlock finishedBlock;
 
-//- (id) initWithMasterViewController:(UIViewController *) masterViewController;
-
 + (id) showRecorderWithMasterViewController:(UIViewController *) masterViewController withDelegate:(id<AudioNoteRecorderDelegate>) delegate;
 + (id) showRecorderMasterViewController:(UIViewController *) masterViewController withFinishedBlock:(AudioNoteRecorderFinishBlock) finishedBlock;
-
++ (id) showRecorderWithMasterViewController:(UIViewController *) masterViewController withRecorderSettings:(NSDictionary *) recorderSettings withFileExtension:(NSString *) fileExtension withDelegate:(id<AudioNoteRecorderDelegate>) delegate;
++ (id) showRecorderMasterViewController:(UIViewController *) masterViewController withRecorderSettings:(NSDictionary *) recorderSettings withFileExtension:(NSString *) fileExtension withFinishedBlock:(AudioNoteRecorderFinishBlock) finishedBlock;
 @end
