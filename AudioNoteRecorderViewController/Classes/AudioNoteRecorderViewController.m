@@ -209,8 +209,16 @@
         
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        UInt32 doChangeDefault = 1;
-        AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefault), &doChangeDefault);
+        
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        NSError *setCategoryError = nil;
+        if (![session setCategory:AVAudioSessionCategoryPlayAndRecord
+                      withOptions:AVAudioSessionCategoryOptionMixWithOthers
+                            error:&setCategoryError]) {
+            // handle error
+            NSLog(@"Failed to setup audio session %@", setCategoryError.description);
+            return;
+        }
         
         self.recorder.delegate = self;
         [self.recorder record];
