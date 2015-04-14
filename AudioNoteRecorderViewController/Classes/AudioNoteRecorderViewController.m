@@ -202,7 +202,10 @@
         NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString] ;
         NSString *uniqueFileName = [NSString stringWithFormat:@"%@.%@", guid, self.fileExtension];
         NSError* error = nil;
-        self.recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp.caf"]]  settings:recorderSettings error:&error];
+        self.recorder = [[AVAudioRecorder alloc]
+                         initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:uniqueFileName]]
+                         settings:self.recorderSettings
+                         error:&error];
         
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
