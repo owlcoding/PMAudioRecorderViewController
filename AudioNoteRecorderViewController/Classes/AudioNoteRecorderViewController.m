@@ -74,9 +74,9 @@
     UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barHeight)];
     // buttons
     UIButton *done = [UIButton buttonWithType:UIButtonTypeCustom];
-    [done setTitle:@"Done" forState:UIControlStateNormal];
+    [done setTitle:NSLocalizedString(@"Done",) forState:UIControlStateNormal];
     UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancel setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancel setTitle:NSLocalizedString(@"Cancel",) forState:UIControlStateNormal];
     [cancel addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [done sizeToFit];
