@@ -90,9 +90,9 @@
     UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, barHeight)];
     // buttons
     UIButton *done = [UIButton buttonWithType:UIButtonTypeCustom];
-    [done setTitle:@"Done" forState:UIControlStateNormal];
+    [done setTitle:NSLocalizedString(@"Done",) forState:UIControlStateNormal];
     UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancel setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancel setTitle:NSLocalizedString(@"Cancel",) forState:UIControlStateNormal];
     [cancel addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [done sizeToFit];
@@ -218,12 +218,23 @@
         NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString] ;
         NSString *uniqueFileName = [NSString stringWithFormat:@"%@.%@", guid, self.fileExtension];
         NSError* error = nil;
-        self.recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"tmp.caf"]]  settings:recorderSettings error:&error];
+        self.recorder = [[AVAudioRecorder alloc]
+                         initWithURL:[NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:uniqueFileName]]
+                         settings:self.recorderSettings
+                         error:&error];
         
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        UInt32 doChangeDefault = 1;
-        AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefault), &doChangeDefault);
+        
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        NSError *setCategoryError = nil;
+        if (![session setCategory:AVAudioSessionCategoryPlayAndRecord
+                      withOptions:AVAudioSessionCategoryOptionMixWithOthers
+                            error:&setCategoryError]) {
+            // handle error
+            NSLog(@"Failed to setup audio session %@", setCategoryError.description);
+            return;
+        }
         
         self.recorder.delegate = self;
         [self.recorder record];
