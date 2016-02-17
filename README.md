@@ -10,7 +10,7 @@ Instalation:
 
     pod 'PMAudioRecorderViewController'
 
-or drop the contents of `AudioNoteRecorderViewController` directory in your XCode project.
+or drop the contents of `AudioNoteRecorderViewController` directory in your Xcode project.
 
 In the code:
 
